@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  urlDominioApi: 'https://mi-dominio.com',
-  urlDominioPublico: 'https://mi-dominio.com',
-  urlRaiz: 'https://mi-dominio.com/api',
-  apiUrl: 'https://mi-dominio.com/api',
+  urlDominioApi: 'https://api-tarjeta-holografico.smartdigitaltec.com',
+  urlDominioPublico: 'https://api-tarjeta-holografico.smartdigitaltec.com',
+  urlRaiz: 'https://api-tarjeta-holografico.smartdigitaltec.com/api',
+  apiUrl: 'https://api-tarjeta-holografico.smartdigitaltec.com/api',
 };
