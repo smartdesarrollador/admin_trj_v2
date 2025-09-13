@@ -229,9 +229,9 @@ export class TarjetaDetailComponent implements OnInit {
   obtenerUrlPublica(): string {
     const tarjeta = this.tarjetaData();
     if (!tarjeta) return '';
-    
-    // URL pública de la tarjeta (ajustar según tu configuración)
-    return `${environment.urlDominioPublico}/card/${tarjeta.id}`;
+
+    // URL pública de la tarjeta con formato amigable
+    return `${environment.urlDominioPublico}/tarjeta/${tarjeta.slug}`;
   }
 
   copiarUrlPublica(): void {
