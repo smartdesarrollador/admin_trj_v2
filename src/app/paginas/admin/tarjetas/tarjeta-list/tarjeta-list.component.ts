@@ -22,6 +22,7 @@ export class TarjetaListComponent implements OnInit {
   isLoading = signal<boolean>(true);
   error = signal<string | null>(null);
   searchTerm = signal<string>('');
+  userIdFilter = signal<string>('');
   currentPage = signal<number>(1);
   perPage = signal<number>(10);
   totalCards = signal<number>(0);
@@ -49,11 +50,16 @@ export class TarjetaListComponent implements OnInit {
       page: this.currentPage(),
       per_page: this.perPage(),
       search: this.searchTerm() || undefined,
+      user_id: this.userIdFilter() || undefined,
       status: this.statusFilter() !== 'all' ? this.statusFilter() : undefined,
       visibility: this.visibilityFilter() !== 'all' ? this.visibilityFilter() : undefined,
       sort_by: this.sortBy(),
       sort_order: this.sortOrder(),
     };
+
+    // Debug: Log params to console (remove in production)
+    console.log('[DEBUG] Params enviados al API:', params);
+    console.log('[DEBUG] UserIdFilter value:', this.userIdFilter());
 
     this.digitalCardsService.getDigitalCards(params).subscribe({
       next: (response) => {
@@ -74,6 +80,11 @@ export class TarjetaListComponent implements OnInit {
   }
 
   onSearch(): void {
+    this.currentPage.set(1);
+    this.cargarTarjetas();
+  }
+
+  onUserIdSearch(): void {
     this.currentPage.set(1);
     this.cargarTarjetas();
   }
@@ -219,6 +230,17 @@ export class TarjetaListComponent implements OnInit {
     this.cargarTarjetas();
   }
 
+  clearAllFilters(): void {
+    this.statusFilter.set('all');
+    this.visibilityFilter.set('all');
+    this.sortBy.set('created_at');
+    this.sortOrder.set('desc');
+    this.searchTerm.set('');
+    this.userIdFilter.set('');
+    this.currentPage.set(1);
+    this.cargarTarjetas();
+  }
+
   setSortBy(field: 'name' | 'created_at' | 'updated_at'): void {
     if (this.sortBy() === field) {
       // Si es el mismo campo, cambiar el orden
@@ -297,5 +319,10 @@ export class TarjetaListComponent implements OnInit {
         this.notificationService.handleApiError(error, 'duplicar la tarjeta');
       }
     });
+  }
+
+  // Método para verificar si un string es numérico
+  private isNumeric(value: string): boolean {
+    return !isNaN(Number(value)) && value.trim() !== '';
   }
 }
